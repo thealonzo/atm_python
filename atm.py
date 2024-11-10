@@ -17,6 +17,11 @@ class AccountManager(ABC):
     def write_accounts_changes(self):
         pass
 
+    
+    @abstractmethod
+    def get_account_balance(self, account_number):
+        pass
+
 
     @abstractmethod
     def deposit_money(self, account_number, sum):
@@ -31,7 +36,17 @@ class AccountManager(ABC):
     @abstractmethod
     def change_password(self, account_number, new_password):
         pass
-    
+
+
+    @abstractmethod
+    def get_accounts(self, id_number):
+        pass
+
+
+    @abstractmethod
+    def check_if_account_exists(self, account_number):
+        pass
+
 
 class ATM(ABC):
     def __init__(self, account_manager:AccountManager):
@@ -76,5 +91,7 @@ class ATM(ABC):
     
 
     def transfer_money(self, account_withdraw, account_deposit, sum):
-        self.withdraw_money(account_withdraw, sum)
+        if not self.withdraw_money(account_withdraw, sum):
+            return False
         self.deposit_money(account_deposit, sum)
+        return True
