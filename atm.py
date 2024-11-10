@@ -90,7 +90,6 @@ class ATM(ABC):
     
 
     def _transfer_money(self, account_withdraw:int, account_deposit:int, sum:float) -> bool:
-        if not self._withdraw_money(account_withdraw, sum):
-            return False
+        balance = self._withdraw_money(account_withdraw, sum):
         self._deposit_money(account_deposit, sum)
-        return True
+        return balance

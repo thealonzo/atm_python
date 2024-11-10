@@ -29,14 +29,13 @@ class CSV_AccountManager(AccountManager):
 
     def deposit_money(self, account_number:int, sum:float) -> bool:
         self.accounts.loc[self.accounts["account_number"] == account_number, "balance"] += sum
-        return True
+        return self.get_account_balance(account_number)
 
 
     def withdraw_money(self, account_number:int, sum:float) -> bool:
-        if self.get_account_balance(account_number) < sum:
-            return False
         self.accounts.loc[self.accounts["account_number"] == account_number, "balance"] -= sum
-        return True
+        return self.get_account_balance(account_number)
+
 
     def change_password(self, account_number:int, new_password:str) -> bool:
         self.accounts.loc[self.accounts["account_number"] == account_number, "atm_code"] = new_password
