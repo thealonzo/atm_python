@@ -44,13 +44,9 @@ class CSV_AccountManager(AccountManager):
 
 
     def get_accounts(self, id_number):
-        # print(self.accounts)
-        # print(self.accounts[self.accounts["id_number"] == 1]["account_number"].tolist())
         return self.accounts[self.accounts["id_number"] == id_number]["account_number"].tolist()
 
 
     def check_if_account_exists(self, account_number):
-        # print(self.accounts["account_number"].tolist(), account_number)
-        # print(account_number in self.accounts["account_number"].tolist())
         return account_number in self.accounts["account_number"].tolist()
 
