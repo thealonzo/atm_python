@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 class AccountManager(ABC):
 
     @abstractmethod
-    def connect(self, account_number, account_pass):
+    def connect(self, account_number:int, account_pass:str) -> bool:
         pass
 
 
@@ -19,32 +19,32 @@ class AccountManager(ABC):
 
     
     @abstractmethod
-    def get_account_balance(self, account_number):
+    def get_account_balance(self, account_number:int) -> float:
         pass
 
 
     @abstractmethod
-    def deposit_money(self, account_number, sum):
+    def deposit_money(self, account_number:int, sum:float) -> bool:
         pass
 
 
     @abstractmethod
-    def withdraw_money(self, account_number, sum):
+    def withdraw_money(self, account_number:int, sum:float) -> bool:
         pass
 
 
     @abstractmethod
-    def change_password(self, account_number, new_password):
+    def change_password(self, account_number:int, new_password:str) -> str:
         pass
 
 
     @abstractmethod
-    def get_accounts(self, id_number):
+    def get_accounts(self, id_number:int) -> list[int]:
         pass
 
 
     @abstractmethod
-    def check_if_account_exists(self, account_number):
+    def check_if_account_exists(self, account_number:int) -> bool:
         pass
 
 
@@ -64,32 +64,32 @@ class ATM(ABC):
 
     
     @abstractmethod
-    def _connect_to_atm(self, id_number):
+    def _connect_to_atm(self, id_number:int) -> bool:
         pass
 
     
     @abstractmethod
-    def _connect_to_account(self, account_number, password):
+    def _connect_to_account(self, account_number:int, password:str) -> bool:
         pass
 
 
-    def _check_balance(self, account_number):
+    def _check_balance(self, account_number:int) -> float:
         return self.account_manager.get_account_balance(account_number)
 
 
-    def _withdraw_money(self, account_number, sum):
+    def _withdraw_money(self, account_number:int, sum:float) -> float:
         return self.account_manager.withdraw_money(account_number, sum)
     
 
-    def _deposit_money(self, account_number, sum):
+    def _deposit_money(self, account_number: int, sum: float) -> float:
         return self.account_manager.deposit_money(account_number, sum)
     
 
-    def _change_password(self, account_number, new_password):
+    def _change_password(self, account_number:int, new_password:str) -> str:
         return self.account_manager.change_password(account_number, new_password)
     
 
-    def _transfer_money(self, account_withdraw, account_deposit, sum):
+    def _transfer_money(self, account_withdraw:int, account_deposit:int, sum:float) -> bool:
         if not self._withdraw_money(account_withdraw, sum):
             return False
         self._deposit_money(account_deposit, sum)

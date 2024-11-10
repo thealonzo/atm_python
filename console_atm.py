@@ -1,4 +1,6 @@
 from atm import *
+import os
+
 class ConsoleATM(ATM):
 
     def __init__(self, account_manager:AccountManager):
@@ -15,18 +17,20 @@ class ConsoleATM(ATM):
         self.account_manager.write_accounts_changes()
 
     
-    def _connect_to_atm(self, id_number):
+    def _connect_to_atm(self, id_number:int) -> bool:
         accounts_for_id  = self.account_manager.get_accounts(id_number)
         if not accounts_for_id:
             print(f"Wrong ID number, id {id_number} doesn't exist")
             return False
-        
-        print("Choose the account you want to connect to:")
-        for account_id in accounts_for_id:
-            print(account_id)
-        chosen_account = int(input())
-        if chosen_account not in accounts_for_id:
-            return False
+        if len(accounts_for_id) > 1:
+            print("Choose the account you want to connect to:")
+            for account_id in accounts_for_id:
+                print(account_id)
+            chosen_account = int(input())
+            if chosen_account not in accounts_for_id:
+                return False
+        else:
+            chosen_account = accounts_for_id[0]
         print(f"Bank account with id {chosen_account} was chosen")
         
         tries = 0
@@ -36,7 +40,7 @@ class ConsoleATM(ATM):
         return False
     
 
-    def _connect_to_account(self, account_number, password):
+    def _connect_to_account(self, account_number:int, password:str) -> bool:
         if self.account_manager.connect(account_number, password):
             self.connected_account = account_number
             return True
@@ -44,7 +48,7 @@ class ConsoleATM(ATM):
         return False
 
 
-    def connect_to_atm(self):
+    def connect_to_atm(self) -> bool:
         id_number = input("Please enter your id number:")
         if id_number == "-1":
             self.stop_atm()
@@ -60,7 +64,7 @@ class ConsoleATM(ATM):
         print(f"Your account balance is {self._check_balance(self.connected_account)}")
 
 
-    def check_sum(sum):
+    def check_sum(sum:str) -> float:
         try:
             sum = float(sum)
             return sum
@@ -68,7 +72,7 @@ class ConsoleATM(ATM):
             return -1
 
 
-    def withdraw_money(self):
+    def withdraw_money(self) -> bool:
         sum_to_withdraw = ConsoleATM.check_sum(input("Please enter the sum you would like to withdraw:"))
         if sum_to_withdraw <= 0:
             print("Can't withdraw non positive amount of money")
@@ -76,7 +80,7 @@ class ConsoleATM(ATM):
        
         withdrawal = self._withdraw_money(self.connected_account, sum_to_withdraw)
         if withdrawal:
-            print("Money withdrawal was successful")
+            print(f"\nMoney withdrawal was successful, account balance is {self._check_balance(self.connected_account)}")
             return True
         else:
             print("Money withdrawal failed, account balance is too low")
@@ -90,7 +94,7 @@ class ConsoleATM(ATM):
             return False
         
         self._deposit_money(self.connected_account, sum_to_deposit)
-        print("Money deposit was successful")
+        print(f"Money deposit was successful, account balance is {self._check_balance(self.connected_account)}")
         return True
     
 
@@ -114,18 +118,24 @@ class ConsoleATM(ATM):
         if invalid_account or not self.account_manager.check_if_account_exists(account_deposit):
             print("The Bank account you wish to transfer money to doesn't exist")
             return False
-        sum_to_transfer = ConsoleATM.check_sum(input(f"Please enter the sum you would like to transfer from your bank account to bank account {account_deposit}:"))
-        
-        if sum_to_transfer <= 0:
-            print("Can't withdraw non positive amount of money")
+        if account_deposit == self.connected_account:
+            print("You can't transfer money to yourself")
             return False
+        
+        sum_to_transfer = ConsoleATM.check_sum(input(f"Please enter the sum you would like to transfer from your bank account to bank account {account_deposit}:"))
+        if sum_to_transfer <= 0:
+            print("Can't transfer non positive amount of money")
+            return False
+        
         self._transfer_money(self.connected_account, account_deposit, sum_to_transfer)
+        print(f"Money transfer was successful, account balance is {self._check_balance(self.connected_account)}")
         return True
 
 
     def operate(self):
         if self.connected_account:
-            action = int(input("Please select the operation you would like to perform:\n1. Check account balance\n2. Withdraw cash\n3. Deposit cash\n4. Change account Password\n5. Transfer money to another account\n6. Exit your account\n"))
+            action = int(input("\nPlease select the operation you would like to perform:\n1. Check account balance\n2. Withdraw cash\n3. Deposit cash\n4. Change account Password\n5. Transfer money to another account\n6. Exit your account\n\n"))
+            clear()
             match action:
                 case 1:
                     self.check_balance()
@@ -144,3 +154,7 @@ class ConsoleATM(ATM):
         else:
             self.connect_to_atm()
         self.operate()
+
+
+def clear():
+    os.system('cls')
