@@ -27,12 +27,12 @@ class CSV_AccountManager(AccountManager):
         return self.accounts[self.accounts["account_number"] == account_number]["balance"].tolist()[0]
 
 
-    def deposit_money(self, account_number:int, sum:float) -> bool:
+    def deposit_money(self, account_number:int, sum:float) -> float:
         self.accounts.loc[self.accounts["account_number"] == account_number, "balance"] += sum
         return self.get_account_balance(account_number)
 
 
-    def withdraw_money(self, account_number:int, sum:float) -> bool:
+    def withdraw_money(self, account_number:int, sum:float) -> float:
         self.accounts.loc[self.accounts["account_number"] == account_number, "balance"] -= sum
         return self.get_account_balance(account_number)
 

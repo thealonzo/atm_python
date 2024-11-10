@@ -24,12 +24,12 @@ class AccountManager(ABC):
 
 
     @abstractmethod
-    def deposit_money(self, account_number:int, sum:float) -> bool:
+    def deposit_money(self, account_number:int, sum:float) -> float:
         pass
 
 
     @abstractmethod
-    def withdraw_money(self, account_number:int, sum:float) -> bool:
+    def withdraw_money(self, account_number:int, sum:float) -> float:
         pass
 
 
@@ -89,7 +89,7 @@ class ATM(ABC):
         return self.account_manager.change_password(account_number, new_password)
     
 
-    def _transfer_money(self, account_withdraw:int, account_deposit:int, sum:float) -> bool:
-        balance = self._withdraw_money(account_withdraw, sum):
+    def _transfer_money(self, account_withdraw:int, account_deposit:int, sum:float) -> float:
+        balance = self._withdraw_money(account_withdraw, sum)
         self._deposit_money(account_deposit, sum)
         return balance
