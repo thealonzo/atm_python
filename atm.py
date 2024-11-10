@@ -64,34 +64,33 @@ class ATM(ABC):
 
     
     @abstractmethod
-    def connect_to_atm(self, id_number):
+    def _connect_to_atm(self, id_number):
         pass
 
     
     @abstractmethod
-    def connect_to_account(self, account_number, password):
+    def _connect_to_account(self, account_number, password):
         pass
 
 
-    @abstractmethod
-    def check_balance(self, account_number):
-        pass
+    def _check_balance(self, account_number):
+        return self.account_manager.get_account_balance(account_number)
 
 
-    def withdraw_money(self, account_number, sum):
+    def _withdraw_money(self, account_number, sum):
         return self.account_manager.withdraw_money(account_number, sum)
     
 
-    def deposit_money(self, account_number, sum):
+    def _deposit_money(self, account_number, sum):
         return self.account_manager.deposit_money(account_number, sum)
     
 
-    def change_password(self, account_number, new_password):
+    def _change_password(self, account_number, new_password):
         return self.account_manager.change_password(account_number, new_password)
     
 
-    def transfer_money(self, account_withdraw, account_deposit, sum):
-        if not self.withdraw_money(account_withdraw, sum):
+    def _transfer_money(self, account_withdraw, account_deposit, sum):
+        if not self._withdraw_money(account_withdraw, sum):
             return False
-        self.deposit_money(account_deposit, sum)
+        self._deposit_money(account_deposit, sum)
         return True

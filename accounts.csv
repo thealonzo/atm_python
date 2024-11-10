@@ -1,5 +1,5 @@
-account_number,id_number,name,balance,atm_code
-1,1,Alon,1000,1234
-2,1,Alon,10,1232
-3,2,Yakov,10000,12345
-4,3,Shimon,1,123
+,account_number,id_number,name,balance,atm_code
+0,1,1,Alon,850.0,1234
+1,2,1,Alon,10.0,1232
+2,3,2,Yakov,10000.0,12345
+3,4,3,Shimon,101.0,123

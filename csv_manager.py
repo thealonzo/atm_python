@@ -16,7 +16,7 @@ class CSV_AccountManager(AccountManager):
 
 
     def read_accounts(self):
-        self.accounts = pd.read_csv(self.csv_path)
+        self.accounts = pd.read_csv(self.csv_path, dtype={"account_number": "int64", "id_number": "int64", "name": "string", "balance": "float64", "atm_code": "string"})
 
 
     def write_accounts_changes(self):
@@ -44,9 +44,13 @@ class CSV_AccountManager(AccountManager):
 
 
     def get_accounts(self, id_number):
-        self.accounts[self.accounts["id_number"] == id_number]["account_number"].tolist()
+        # print(self.accounts)
+        # print(self.accounts[self.accounts["id_number"] == 1]["account_number"].tolist())
+        return self.accounts[self.accounts["id_number"] == id_number]["account_number"].tolist()
 
 
     def check_if_account_exists(self, account_number):
-        return account_number in self.accounts["account_number"]
+        # print(self.accounts["account_number"].tolist(), account_number)
+        # print(account_number in self.accounts["account_number"].tolist())
+        return account_number in self.accounts["account_number"].tolist()
 
