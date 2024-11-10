@@ -34,7 +34,7 @@ class AccountManager(ABC):
 
 
     @abstractmethod
-    def change_password(self, account_number:int, new_password:str) -> str:
+    def change_password(self, account_number:int, new_password:str):
         pass
 
 
@@ -85,8 +85,8 @@ class ATM(ABC):
         return self.account_manager.deposit_money(account_number, sum)
     
 
-    def _change_password(self, account_number:int, new_password:str) -> str:
-        return self.account_manager.change_password(account_number, new_password)
+    def _change_password(self, account_number:int, new_password:str):
+        self.account_manager.change_password(account_number, new_password)
     
 
     def _transfer_money(self, account_withdraw:int, account_deposit:int, sum:float) -> float:

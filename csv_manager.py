@@ -37,9 +37,8 @@ class CSV_AccountManager(AccountManager):
         return self.get_account_balance(account_number)
 
 
-    def change_password(self, account_number:int, new_password:str) -> bool:
+    def change_password(self, account_number:int, new_password:str):
         self.accounts.loc[self.accounts["account_number"] == account_number, "atm_code"] = new_password
-        return True
 
 
     def get_accounts(self, id_number:int) -> list[int]:
