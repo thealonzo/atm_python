@@ -18,7 +18,7 @@ class ConsoleATM(ATM):
         accounts_for_id  = self.account_manager.get_accounts(id_number)
         if not accounts_for_id:
             print(f"Wrong ID number, id {id_number} doesn't exist")
-            return None
+            return False
         print("Choose the account you want to connect to:")
         for index in range(len(accounts_for_id)):
             print(index, accounts_for_id[index])
@@ -43,6 +43,9 @@ class ConsoleATM(ATM):
 
     def connect_to_atm(self):
         id_number = input("Please enter your id number:")
+        if id_number == "-1":
+            self.stop_atm()
+            return None
         return self.connect_to_atm(id_number)
 
     
